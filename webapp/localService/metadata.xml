@@ -1,0 +1,90 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZAG_C_FLIGHTBYAIRPORTQ_CDS" xml:lang="en" sap:schema-version="1">
+            <EntityType Name="ZAG_C_FLIGHTBYAIRPORTQUERYType" sap:semantics="aggregate" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:filterable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="TotaledProperties" Type="Edm.String" sap:aggregation-role="totaled-properties-list" sap:is-annotation="true" sap:label="Totaled Properties" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Airline" Type="Edm.String" MaxLength="3" sap:aggregation-role="dimension" sap:creatable="false" sap:updatable="false" sap:label="Airline"/>
+                <Property Name="FlightConnection" Type="Edm.String" MaxLength="4" sap:aggregation-role="dimension" sap:creatable="false" sap:super-ordinate="Airline" sap:updatable="false" sap:label="Connection Number"/>
+                <Property Name="FlightDate" Type="Edm.String" MaxLength="10" sap:aggregation-role="dimension" sap:creatable="false" sap:semantics="yearmonthday" sap:text="FlightDate_T" sap:updatable="false" sap:label="Flight Date"/>
+                <Property Name="FlightDate_T" Type="Edm.String" MaxLength="10" sap:creatable="false" sap:filterable="false" sap:updatable="false" sap:label="Flight Date"/>
+                <Property Name="AirportFrom" Type="Edm.String" MaxLength="3" sap:aggregation-role="dimension" sap:creatable="false" sap:updatable="false" sap:label="Departure Airport"/>
+                <Property Name="AirportTo" Type="Edm.String" MaxLength="3" sap:aggregation-role="dimension" sap:creatable="false" sap:updatable="false" sap:label="Arrival Airport"/>
+                <Property Name="AircraftType" Type="Edm.String" MaxLength="10" sap:aggregation-role="dimension" sap:creatable="false" sap:updatable="false" sap:label="Plane Type"/>
+                <Property Name="Currency" Type="Edm.String" MaxLength="5" sap:aggregation-role="dimension" sap:creatable="false" sap:updatable="false" sap:label="Airline Currency" sap:semantics="currency-code"/>
+                <Property Name="FlightPrice" Type="Edm.Decimal" Precision="42" Scale="2" sap:aggregation-role="measure" sap:creatable="false" sap:filterable="false" sap:text="FlightPrice_F" sap:unit="Currency" sap:updatable="false" sap:label="Airfare"/>
+                <Property Name="FlightPrice_F" Type="Edm.String" MaxLength="60" sap:creatable="false" sap:filterable="false" sap:updatable="false" sap:label="Airfare (Formatted)"/>
+                <Property Name="MaximumNumberOfSeats" Type="Edm.Decimal" Precision="42" Scale="0" sap:aggregation-role="measure" sap:creatable="false" sap:filterable="false" sap:text="MaximumNumberOfSeats_F" sap:updatable="false" sap:label="Max. capacity econ."/>
+                <Property Name="MaximumNumberOfSeats_F" Type="Edm.String" MaxLength="60" sap:creatable="false" sap:filterable="false" sap:updatable="false" sap:label="Max. capacity econ. (Formatted)"/>
+                <Property Name="NumberOfOccupiedSeats" Type="Edm.Decimal" Precision="42" Scale="0" sap:aggregation-role="measure" sap:creatable="false" sap:filterable="false" sap:text="NumberOfOccupiedSeats_F" sap:updatable="false" sap:label="Occupied econ."/>
+                <Property Name="NumberOfOccupiedSeats_F" Type="Edm.String" MaxLength="60" sap:creatable="false" sap:filterable="false" sap:updatable="false" sap:label="Occupied econ. (Formatted)"/>
+                <Property Name="NumberOfAvailableSeats" Type="Edm.Decimal" Precision="42" Scale="0" sap:aggregation-role="measure" sap:creatable="false" sap:filterable="false" sap:text="NumberOfAvailableSeats_F" sap:updatable="false" sap:label="Available Seats"/>
+                <Property Name="NumberOfAvailableSeats_F" Type="Edm.String" MaxLength="60" sap:creatable="false" sap:filterable="false" sap:updatable="false" sap:label="Available Seats (Formatted)"/>
+                <NavigationProperty Name="AirportFromDetails" Relationship="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportFromToListOfValues" FromRole="ToRole_AirportFromToListOfValues" ToRole="FromRole_AirportFromToListOfValues"/>
+                <NavigationProperty Name="AirportToDetails" Relationship="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportToToListOfValues" FromRole="ToRole_AirportToToListOfValues" ToRole="FromRole_AirportToToListOfValues"/>
+            </EntityType>
+            <EntityType Name="AirportFrom" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="AirportFrom"/>
+                </Key>
+                <Property Name="AirportFrom" Type="Edm.String" Nullable="false" sap:label="" sap:parameter="optional" sap:text="AirportFromText" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AirportFromText" Type="Edm.String" MaxLength="60" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="AirportTo" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="AirportTo"/>
+                </Key>
+                <Property Name="AirportTo" Type="Edm.String" Nullable="false" sap:label="" sap:parameter="optional" sap:text="AirportToText" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AirportToText" Type="Edm.String" MaxLength="60" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="AirportToToListOfValues" sap:content-version="1">
+                <End Type="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportTo" Multiplicity="1" Role="FromRole_AirportToToListOfValues"/>
+                <End Type="ZAG_C_FLIGHTBYAIRPORTQ_CDS.ZAG_C_FLIGHTBYAIRPORTQUERYType" Multiplicity="*" Role="ToRole_AirportToToListOfValues"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_AirportToToListOfValues">
+                        <PropertyRef Name="AirportTo"/>
+                    </Principal>
+                    <Dependent Role="ToRole_AirportToToListOfValues">
+                        <PropertyRef Name="AirportTo"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="AirportFromToListOfValues" sap:content-version="1">
+                <End Type="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportFrom" Multiplicity="1" Role="FromRole_AirportFromToListOfValues"/>
+                <End Type="ZAG_C_FLIGHTBYAIRPORTQ_CDS.ZAG_C_FLIGHTBYAIRPORTQUERYType" Multiplicity="*" Role="ToRole_AirportFromToListOfValues"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_AirportFromToListOfValues">
+                        <PropertyRef Name="AirportFrom"/>
+                    </Principal>
+                    <Dependent Role="ToRole_AirportFromToListOfValues">
+                        <PropertyRef Name="AirportFrom"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZAG_C_FLIGHTBYAIRPORTQ_CDS_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="AirportTo" EntityType="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportTo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZAG_C_FLIGHTBYAIRPORTQUERY" EntityType="ZAG_C_FLIGHTBYAIRPORTQ_CDS.ZAG_C_FLIGHTBYAIRPORTQUERYType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="AirportFrom" EntityType="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportFrom" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="AirportToToListOfValues_AssocSet" Association="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportToToListOfValues" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="AirportTo" Role="FromRole_AirportToToListOfValues"/>
+                    <End EntitySet="ZAG_C_FLIGHTBYAIRPORTQUERY" Role="ToRole_AirportToToListOfValues"/>
+                </AssociationSet>
+                <AssociationSet Name="AirportFromToListOfValues_AssocSet" Association="ZAG_C_FLIGHTBYAIRPORTQ_CDS.AirportFromToListOfValues" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="AirportFrom" Role="FromRole_AirportFromToListOfValues"/>
+                    <End EntitySet="ZAG_C_FLIGHTBYAIRPORTQUERY" Role="ToRole_AirportFromToListOfValues"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZAG_C_FLIGHTBYAIRPORTQ_CDS/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZAG_C_FLIGHTBYAIRPORTQ_CDS/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
